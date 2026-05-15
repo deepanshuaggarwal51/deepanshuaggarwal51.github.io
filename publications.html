@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Publications by Deepanshu Aggarwal — Moiré physics, twistronics, Van der Waals heterostructures." />
+  <meta name="author" content="Deepanshu Aggarwal" />
+  <title>Publications — Deepanshu Aggarwal</title>
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+  <script src="https://use.fontawesome.com/releases/v6.5.0/js/all.js" crossorigin="anonymous" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="css/sphinx.css" rel="stylesheet" />
+</head>
+<body>
+
+<button id="sidebar-toggle" aria-label="Toggle navigation">
+  <i class="fas fa-bars"></i>
+</button>
+
+<aside id="sidebar">
+  <div class="sidebar-profile">
+    <div class="profile-img-wrapper">
+      <div class="profile-placeholder" aria-label="Profile photo">
+        <i class="fas fa-user"></i>
+      </div>
+    </div>
+    <div class="sidebar-name">Deepanshu Aggarwal</div>
+    <div class="sidebar-title">PhD · Physics</div>
+    <div class="sidebar-institute">IIT Delhi</div>
+  </div>
+  <nav class="sidebar-nav" aria-label="Site navigation">
+    <div class="nav-section-label">Navigate</div>
+    <ul>
+      <li><a href="index.html"    class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="about.html"    class="nav-link"><i class="fas fa-user"></i> About</a></li>
+      <li><a href="publications.html" class="nav-link active"><i class="fas fa-flask"></i> Publications</a></li>
+      <li><a href="education.html"class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a></li>
+      <li><a href="news.html"     class="nav-link"><i class="fas fa-newspaper"></i> News</a></li>
+      <li><a href="skiils.html"   class="nav-link"><i class="fas fa-code"></i> Skills</a></li>
+      <li><a href="index.html#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<main id="main">
+  <section id="research" class="section" style="padding-top:4rem; min-height:100vh;">
+    <div class="section-header">
+      <div class="section-eyebrow"><i class="fas fa-flask"></i> Publications</div>
+      <h2 class="section-title">Publications</h2>
+      <p style="font-size:0.83rem; color:var(--text-faint); margin-top:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+        <i class="fab fa-orcid" style="color:var(--gold-dim);"></i>
+        Synced from <a href="https://orcid.org/0000-0003-1070-8697" target="_blank" rel="noopener" style="color:var(--gold-dim); text-decoration:none; border-bottom:1px dashed var(--gold-dim);">ORCID</a>
+        &nbsp;·&nbsp; sorted by year, newest first
+      </p>
+    </div>
+
+    <!-- Cards injected here -->
+    <div id="pub-grid" class="pub-grid" hidden></div>
+  </section>
+
+  <footer>
+    <span>&copy; 2025 Deepanshu Aggarwal · Indian Institute of Technology Delhi</span>
+    <span><a href="index.html">Back to Home</a></span>
+  </footer>
+</main>
+
+<script src="js/site.js"></script>
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+
+const ORCID      = '0000-0003-1070-8697';
+const ORCID_TO   = 8000;   // ms timeout for ORCID fetch
+const CROSSREF_TO= 6000;   // ms timeout per CrossRef fetch
+
+const EXTRA_BADGES = {
+  '10.1103/physrevb.109.125302': [
+    { label: "Editor's Suggestion", cls: 'badge-gold', icon: 'fas fa-star' }
+  ]
+};
+
+
+const TYPE_BADGE = {
+  'review-article':  { label: 'Topical Review',  cls: 'badge-red',   icon: 'fas fa-book-open' },
+  'journal-article': { label: 'Journal Article', cls: 'badge-green',  icon: 'fas fa-file-alt'  },
+  'preprint':        { label: 'Preprint',         cls: 'badge-blue',  icon: 'fas fa-file-alt'  }
+};
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+const normDOI  = doi => doi ? doi.trim().toLowerCase() : null;
+const stripJats = s  => s ? s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() : '';
+
+function fetchWithTimeout(url, opts = {}, ms) {
+  const ctrl = new AbortController();
+  const tid  = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(tid));
+}
+
+function buildCard(pub, idx) {
+  const doi   = normDOI(pub.doi);
+  const extra = doi ? (EXTRA_BADGES[doi] || []) : [];
+  const type  = TYPE_BADGE[pub.type] || { label: 'Publication', cls: 'badge-blue', icon: 'fas fa-file-alt' };
+
+  const badges = [
+    `<span class="badge ${type.cls}"><i class="${type.icon}"></i> ${type.label}</span>`,
+    `<span id="cite-${idx}"></span>`,
+    pub.year ? `<span class="badge badge-blue">${pub.year}</span>` : '',
+    ...extra.map(b => `<span class="badge ${b.cls}"><i class="${b.icon}"></i> ${b.label}</span>`)
+  ].join('');
+
+  const journalLink = pub.doi
+    ? `<a href="https://doi.org/${pub.doi}" target="_blank" rel="noopener">${pub.journal || pub.doi}</a>`
+    : (pub.journal || '');
+
+  return `
+    <article class="pub-card reveal" id="card-${idx}">
+      <div class="pub-badges">${badges}</div>
+      <h3 class="pub-title">${pub.title}</h3>
+      <p class="pub-authors" id="authors-${idx}"></p>
+      <p class="pub-journal">${journalLink}</p>
+      <p class="pub-desc"   id="desc-${idx}"></p>
+    </article>`;
+}
+
+// ── Fetch ORCID ───────────────────────────────────────────────────────────────
+
+async function fetchWorks() {
+  const resp = await fetchWithTimeout(
+    `https://pub.orcid.org/v3.0/${ORCID}/works`,
+    { headers: { Accept: 'application/json' } },
+    ORCID_TO
+  );
+  if (!resp.ok) throw new Error(`ORCID ${resp.status}`);
+  const data = await resp.json();
+
+  return (data.group || []).map(g => {
+    const s   = g['work-summary'][0];
+    const ids = s['external-ids']?.['external-id'] || [];
+    const doi = ids.find(e => e['external-id-type'] === 'doi')?.['external-id-value'] || null;
+    return {
+      title:   s.title?.title?.value || '(Untitled)',
+      year:    s['publication-date']?.year?.value || null,
+      type:    s.type || 'journal-article',
+      journal: s['journal-title']?.value || null,
+      doi
+    };
+  });
+}
+
+// ── CrossRef enrichment (runs after cards are visible) ───────────────────────
+
+async function enrichCard(pub, idx) {
+  if (!pub.doi) return;
+  try {
+    const resp = await fetchWithTimeout(
+      `https://api.crossref.org/works/${encodeURIComponent(pub.doi)}?mailto=daggarwal305@gmail.com`,
+      {},
+      CROSSREF_TO
+    );
+    if (!resp.ok) return;
+    const { message } = await resp.json();
+
+    // Citation badge: e.g. "Phys. Rev. B 110, 245418"
+    const shortTitle = (message['short-container-title'] || [])[0] || '';
+    const volume     = message.volume || '';
+    const locator    = message['article-number'] || message.page || '';
+    if (shortTitle) {
+      const volLoc = volume && locator ? `${volume}, ${locator}` : (volume || locator);
+      const cite   = [shortTitle, volLoc].filter(Boolean).join(' ');
+      const el = document.getElementById(`cite-${idx}`);
+      if (el) el.outerHTML = `<span class="badge badge-gray">${cite}</span>`;
+    }
+
+    // Authors
+    const authorList = (message.author || []).map(a => {
+      const name = [a.given, a.family].filter(Boolean).join(' ');
+      return (a.family?.toLowerCase() === 'aggarwal' && a.given?.toLowerCase().startsWith('d'))
+        ? `<strong class="pub-author-self">${name}</strong>`
+        : name;
+    }).join(', ');
+    if (authorList) {
+      const el = document.getElementById(`authors-${idx}`);
+      if (el) el.innerHTML = authorList;
+    }
+
+    // Abstract
+    const abstract = stripJats(message.abstract || '');
+    if (abstract) {
+      const el = document.getElementById(`desc-${idx}`);
+      if (el) el.textContent = abstract;
+    }
+  } catch { /* silent */ }
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+
+async function loadPublications() {
+  const grid = document.getElementById('pub-grid');
+  try {
+    const works = await fetchWorks();
+    works.sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+    grid.innerHTML = works.map(buildCard).join('');
+    grid.hidden    = false;
+    initReveal(grid);
+    works.forEach((pub, idx) => enrichCard(pub, idx));
+  } catch (err) {
+    console.error('ORCID load failed:', err);
+  }
+}
+
+loadPublications();
+</script>
+</body>
+</html>
