@@ -30,8 +30,8 @@
         <i class="fas fa-user"></i>
       </div>
     </div>
-    <div class="sidebar-name">Deepanshu Aggarwal</div>
-    <div class="sidebar-title">Research Scientist</div>
+    <div class="sidebar-brand"><div class="sidebar-name">Deepanshu Aggarwal</div>
+    <div class="sidebar-title">Research Scientist</div></div>
     <div class="sidebar-institute">ParaScalr Inc.</div>
   </div>
   <nav class="sidebar-nav" aria-label="Site navigation">
@@ -43,6 +43,7 @@
       <li><a href="education.html"     class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a></li>
       <li><a href="news.html"          class="nav-link"><i class="fas fa-newspaper"></i> News</a></li>
       <li><a href="skiils.html"        class="nav-link"><i class="fas fa-code"></i> Skills</a></li>
+      <li><a href="github.html"        class="nav-link"><i class="fab fa-github"></i> GitHub</a></li>
       <li><a href="index.html#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
     </ul>
   </nav>
@@ -58,6 +59,7 @@
         <i class="fab fa-orcid" style="color:var(--gold-dim);"></i>
         Synced from <a href="https://orcid.org/0000-0003-1070-8697" target="_blank" rel="noopener" style="color:var(--gold-dim); text-decoration:none; border-bottom:1px dashed var(--gold-dim);">ORCID</a>
         &nbsp;·&nbsp; sorted by year, newest first
+        &nbsp;·&nbsp; <a href="https://scholar.google.com/citations?user=f1sQ3S8AAAAJ&hl=en" target="_blank" rel="noopener" style="color:var(--gold-dim); text-decoration:none; border-bottom:1px dashed var(--gold-dim);">Google Scholar</a>
       </p>
     </div>
 
@@ -83,12 +85,6 @@ const ORCID      = '0000-0003-1070-8697';
 const ORCID_TO   = 8000;
 const CROSSREF_TO= 6000;
 
-const EXTRA_BADGES = {
-  '10.1103/physrevb.109.125302': [
-    { label: "Editor's Suggestion", cls: 'badge-gold', icon: 'fas fa-star' }
-  ]
-};
-
 const TYPE_BADGE = {
   'review-article':  { label: 'Topical Review',  cls: 'badge-red',   icon: 'fas fa-book-open' },
   'journal-article': { label: 'Journal Article', cls: 'badge-green',  icon: 'fas fa-file-alt'  },
@@ -105,15 +101,12 @@ function fetchWithTimeout(url, opts = {}, ms) {
 }
 
 function buildCard(pub, idx) {
-  const doi   = normDOI(pub.doi);
-  const extra = doi ? (EXTRA_BADGES[doi] || []) : [];
   const type  = TYPE_BADGE[pub.type] || { label: 'Publication', cls: 'badge-blue', icon: 'fas fa-file-alt' };
 
   const badges = [
     `<span class="badge ${type.cls}"><i class="${type.icon}"></i> ${type.label}</span>`,
     `<span id="cite-${idx}"></span>`,
-    pub.year ? `<span class="badge badge-blue">${pub.year}</span>` : '',
-    ...extra.map(b => `<span class="badge ${b.cls}"><i class="${b.icon}"></i> ${b.label}</span>`)
+    pub.year ? `<span class="badge badge-blue">${pub.year}</span>` : ''
   ].join('');
 
   const journalLink = pub.doi
@@ -126,7 +119,8 @@ function buildCard(pub, idx) {
       <h3 class="pub-title">${pub.title}</h3>
       <p class="pub-authors" id="authors-${idx}"></p>
       <p class="pub-journal">${journalLink}</p>
-      <p class="pub-desc"   id="desc-${idx}"></p>
+      <div class="pub-meta" id="meta-${idx}"></div>
+      <p class="pub-desc" id="desc-${idx}"></p>
     </article>`;
 }
 
@@ -184,6 +178,26 @@ async function enrichCard(pub, idx) {
       const el = document.getElementById(`authors-${idx}`);
       if (el) el.innerHTML = authorList;
     }
+
+    // Metadata row: DOI, volume/issue, citations
+    const metaParts = [];
+    const doiVal = message.DOI;
+    if (doiVal) {
+      metaParts.push(`<span class="pub-meta-item"><i class="fas fa-fingerprint"></i> <a href="https://doi.org/${doiVal}" target="_blank" rel="noopener">${doiVal}</a></span>`);
+    }
+    const vol = message.volume || '';
+    const iss = message.issue || '';
+    const loc = message['article-number'] || message.page || '';
+    const ref = [vol && `Vol. ${vol}`, iss && `Issue ${iss}`, loc && `${loc}`].filter(Boolean).join(', ');
+    if (ref) {
+      metaParts.push(`<span class="pub-meta-item"><i class="fas fa-book"></i> ${ref}</span>`);
+    }
+    const citations = message['is-referenced-by-count'];
+    if (citations > 0) {
+      metaParts.push(`<span class="pub-meta-item"><i class="fas fa-quote-right"></i> ${citations} citation${citations !== 1 ? 's' : ''}</span>`);
+    }
+    const metaEl = document.getElementById(`meta-${idx}`);
+    if (metaEl && metaParts.length) metaEl.innerHTML = metaParts.join('');
 
     const abstract = stripJats(message.abstract || '');
     if (abstract) {

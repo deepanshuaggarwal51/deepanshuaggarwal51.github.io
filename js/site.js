@@ -23,18 +23,21 @@
     if (yr) yr.textContent = new Date().getFullYear();
   });
 
-  // Theme toggle
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
     const stored = localStorage.getItem('theme');
-    if (stored) document.documentElement.setAttribute('data-theme', stored);
+    if (stored === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 
     themeToggle.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme');
       const isDark = current === 'dark' || (!current && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      const next = isDark ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
     });
   }
 })();
@@ -49,10 +52,18 @@ function initReveal(root) {
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-  const els = (root || document).querySelectorAll('.reveal');
-  els.forEach((el, i) => {
-    el.style.transitionDelay = `${i * 60}ms`;
-    obs.observe(el);
+  const sections = (root || document).querySelectorAll('section, .about-grid, .skills-grid, .pub-grid, .gh-grid, .timeline');
+  sections.forEach(section => {
+    const els = section.querySelectorAll(':scope > .reveal, :scope > * > .reveal');
+    els.forEach((el, i) => {
+      el.style.transitionDelay = `${i * 60}ms`;
+      obs.observe(el);
+    });
+  });
+
+  const topLevel = (root || document).querySelectorAll(':scope > .reveal, #main > .reveal');
+  topLevel.forEach(el => {
+    if (!el.classList.contains('visible')) obs.observe(el);
   });
 }
 
