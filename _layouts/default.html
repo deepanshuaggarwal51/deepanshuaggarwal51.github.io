@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.html %}
+</head>
+<body>
+
+{% include nav.html %}
+
+<main id="main">
+  {{ content }}
+  {% include footer.html %}
+</main>
+
+<script src="js/site.js"></script>
+{% include page-scripts.html %}
+</body>
+</html>

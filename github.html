@@ -1,56 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="GitHub portfolio of Deepanshu Aggarwal — open-source projects in physics, ML, and scientific computing." />
-  <meta name="author" content="Deepanshu Aggarwal" />
-  <meta name="theme-color" content="#09090f" />
-  <meta property="og:title" content="GitHub — Deepanshu Aggarwal" />
-  <meta property="og:description" content="Open-source projects in physics, ML, and scientific computing." />
-  <meta property="og:type" content="website" />
-  <title>GitHub — Deepanshu Aggarwal</title>
-  <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-  <script src="https://use.fontawesome.com/releases/v6.5.0/js/all.js" crossorigin="anonymous" defer></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link href="css/sphinx.css" rel="stylesheet" />
-</head>
-<body>
+---
+layout: default
+title: "GitHub — Deepanshu Aggarwal"
+description: "Open-source projects in physics, ML, and scientific computing."
+nav_id: github
+---
 
-<button id="sidebar-toggle" aria-label="Toggle navigation">
-  <i class="fas fa-bars"></i>
-</button>
-
-<aside id="sidebar">
-  <div class="sidebar-profile">
-    <div class="profile-img-wrapper">
-      <div class="profile-placeholder" aria-label="Profile photo">
-        <i class="fas fa-user"></i>
-      </div>
-    </div>
-    <div class="sidebar-brand"><div class="sidebar-name">Deepanshu Aggarwal</div>
-    <div class="sidebar-title">Research Scientist</div></div>
-    <div class="sidebar-institute">ParaScalr Inc.</div>
-  </div>
-  <nav class="sidebar-nav" aria-label="Site navigation">
-    <div class="nav-section-label">Navigate</div>
-    <ul>
-      <li><a href="index.html"         class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-      <li><a href="about.html"         class="nav-link"><i class="fas fa-user"></i> About</a></li>
-      <li><a href="publications.html"  class="nav-link"><i class="fas fa-flask"></i> Publications</a></li>
-      <li><a href="education.html"     class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a></li>
-      <li><a href="news.html"          class="nav-link"><i class="fas fa-newspaper"></i> News</a></li>
-      <li><a href="skiils.html"        class="nav-link"><i class="fas fa-code"></i> Skills</a></li>
-      <li><a href="github.html"        class="nav-link active"><i class="fab fa-github"></i> GitHub</a></li>
-      <li><a href="index.html#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
-    </ul>
-  </nav>
-  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
-</aside>
-
-<main id="main">
   <section class="section" style="padding-top:4rem; min-height:100vh;">
     <div class="section-header reveal">
       <div class="section-eyebrow"><i class="fab fa-github"></i> Open Source</div>
@@ -78,70 +32,3 @@
 
     <div id="gh-grid" class="gh-grid"></div>
   </section>
-
-  <footer>
-    <span>&copy; <span class="js-year">2025</span> Deepanshu Aggarwal</span>
-    <span><a href="index.html">Back to Home</a></span>
-  </footer>
-</main>
-
-<script src="js/site.js"></script>
-<script>
-const SKIP = new Set(['deepanshuaggarwal51', 'deepanshuaggarwal51.github.io']);
-
-const LANG_COLOR = {
-  Python: '#3572A5', MATLAB: '#e16737', HTML: '#e34c26',
-  JavaScript: '#f1e05a', SCSS: '#c6538c', Shell: '#89e051',
-  Rust: '#dea584', Julia: '#a270ba', R: '#198CE7', C: '#555555',
-  'C++': '#f34b7d', Fortran: '#4d41b1'
-};
-
-async function loadGitHub() {
-  const loading = document.getElementById('gh-loading');
-  try {
-    const [userResp, reposResp] = await Promise.all([
-      fetch('https://api.github.com/users/deepanshuaggarwal51'),
-      fetch('https://api.github.com/users/deepanshuaggarwal51/repos?sort=pushed&per_page=30')
-    ]);
-
-    if (userResp.ok) {
-      const u = await userResp.json();
-      document.getElementById('gh-stats').innerHTML = `
-        <span class="gh-stat"><i class="fas fa-box-archive"></i> ${u.public_repos} repos</span>
-        <span class="gh-stat"><i class="fas fa-users"></i> ${u.followers} followers</span>
-        <span class="gh-stat"><i class="fas fa-user-plus"></i> ${u.following} following</span>`;
-    }
-
-    if (!reposResp.ok) { if (loading) loading.remove(); return; }
-    const repos = (await reposResp.json())
-      .filter(r => !SKIP.has(r.name) && !r.fork)
-      .slice(0, 12);
-
-    const grid = document.getElementById('gh-grid');
-    grid.innerHTML = repos.map(r => {
-      const lang = r.language ? `<span class="gh-lang"><span class="gh-lang-dot" style="background:${LANG_COLOR[r.language] || '#8b949e'}"></span>${r.language}</span>` : '';
-      const desc = r.description ? `<p class="gh-desc">${r.description}</p>` : '';
-      return `
-        <a href="${r.html_url}" target="_blank" rel="noopener" class="gh-card reveal">
-          <div class="gh-card-top">
-            <i class="fas fa-book gh-book"></i>
-            <span class="gh-name">${r.name}</span>
-          </div>
-          ${desc}
-          <div class="gh-card-foot">
-            ${lang}
-            ${r.stargazers_count ? `<span class="gh-stars"><i class="fas fa-star"></i> ${r.stargazers_count}</span>` : ''}
-          </div>
-        </a>`;
-    }).join('');
-    if (loading) loading.remove();
-    initReveal(grid);
-  } catch {
-    if (loading) loading.remove();
-  }
-}
-
-loadGitHub();
-</script>
-</body>
-</html>

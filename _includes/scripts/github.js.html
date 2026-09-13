@@ -1,0 +1,57 @@
+<script>
+const SKIP = new Set(['deepanshuaggarwal51', 'deepanshuaggarwal51.github.io']);
+
+const LANG_COLOR = {
+  Python: '#3572A5', MATLAB: '#e16737', HTML: '#e34c26',
+  JavaScript: '#f1e05a', SCSS: '#c6538c', Shell: '#89e051',
+  Rust: '#dea584', Julia: '#a270ba', R: '#198CE7', C: '#555555',
+  'C++': '#f34b7d', Fortran: '#4d41b1'
+};
+
+async function loadGitHub() {
+  const loading = document.getElementById('gh-loading');
+  try {
+    const [userResp, reposResp] = await Promise.all([
+      fetch('https://api.github.com/users/deepanshuaggarwal51'),
+      fetch('https://api.github.com/users/deepanshuaggarwal51/repos?sort=pushed&per_page=30')
+    ]);
+
+    if (userResp.ok) {
+      const u = await userResp.json();
+      document.getElementById('gh-stats').innerHTML = `
+        <span class="gh-stat"><i class="fas fa-box-archive"></i> ${u.public_repos} repos</span>
+        <span class="gh-stat"><i class="fas fa-users"></i> ${u.followers} followers</span>
+        <span class="gh-stat"><i class="fas fa-user-plus"></i> ${u.following} following</span>`;
+    }
+
+    if (!reposResp.ok) { if (loading) loading.remove(); return; }
+    const repos = (await reposResp.json())
+      .filter(r => !SKIP.has(r.name) && !r.fork)
+      .slice(0, 12);
+
+    const grid = document.getElementById('gh-grid');
+    grid.innerHTML = repos.map(r => {
+      const lang = r.language ? `<span class="gh-lang"><span class="gh-lang-dot" style="background:${LANG_COLOR[r.language] || '#8b949e'}"></span>${r.language}</span>` : '';
+      const desc = r.description ? `<p class="gh-desc">${r.description}</p>` : '';
+      return `
+        <a href="${r.html_url}" target="_blank" rel="noopener" class="gh-card reveal">
+          <div class="gh-card-top">
+            <i class="fas fa-book gh-book"></i>
+            <span class="gh-name">${r.name}</span>
+          </div>
+          ${desc}
+          <div class="gh-card-foot">
+            ${lang}
+            ${r.stargazers_count ? `<span class="gh-stars"><i class="fas fa-star"></i> ${r.stargazers_count}</span>` : ''}
+          </div>
+        </a>`;
+    }).join('');
+    if (loading) loading.remove();
+    initReveal(grid);
+  } catch {
+    if (loading) loading.remove();
+  }
+}
+
+loadGitHub();
+</script>

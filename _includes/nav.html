@@ -1,0 +1,33 @@
+<button id="sidebar-toggle" aria-label="Toggle navigation">
+  <i class="fas fa-bars"></i>
+</button>
+
+<aside id="sidebar">
+  <div class="sidebar-profile">
+    <div class="profile-img-wrapper">
+      <div class="profile-placeholder" aria-label="Profile photo">
+        <i class="fas fa-user"></i>
+      </div>
+    </div>
+    <div class="sidebar-brand">
+      <div class="sidebar-name">Deepanshu Aggarwal</div>
+      <div class="sidebar-title">Research Scientist</div>
+    </div>
+    <div class="sidebar-institute">ParaScalr Inc.</div>
+  </div>
+  <nav class="sidebar-nav" aria-label="Site navigation">
+    <div class="nav-section-label">Navigate</div>
+    <ul>
+      <li><a href="index.html"         class="nav-link{% if page.nav_id == 'home' %} active{% endif %}"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="about.html"         class="nav-link{% if page.nav_id == 'about' %} active{% endif %}"><i class="fas fa-user"></i> About</a></li>
+      <li><a href="publications.html"  class="nav-link{% if page.nav_id == 'publications' %} active{% endif %}"><i class="fas fa-flask"></i> Publications</a></li>
+      <li><a href="education.html"     class="nav-link{% if page.nav_id == 'education' %} active{% endif %}"><i class="fas fa-graduation-cap"></i> Education</a></li>
+      <li><a href="news.html"          class="nav-link{% if page.nav_id == 'news' %} active{% endif %}"><i class="fas fa-newspaper"></i> News</a></li>
+      <li><a href="skiils.html"        class="nav-link{% if page.nav_id == 'skills' %} active{% endif %}"><i class="fas fa-code"></i> Skills</a></li>
+      <li><a href="github.html"        class="nav-link{% if page.nav_id == 'github' %} active{% endif %}"><i class="fab fa-github"></i> GitHub</a></li>
+      {% if page.nav_id == 'home' %}<li><a href="#contact" class="nav-link js-anchor"><i class="fas fa-envelope"></i> Contact</a></li>
+      {% else %}<li><a href="index.html#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>{% endif %}
+    </ul>
+  </nav>
+  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
+</aside>

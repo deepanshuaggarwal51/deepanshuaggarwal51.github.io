@@ -1,0 +1,8 @@
+title: Deepanshu Aggarwal
+description: Research Scientist applying ML to materials science and semiconductor device simulation
+url: https://deepanshuaggarwal51.github.io
+baseurl: ""
+exclude:
+  - CLAUDE.md
+  - README.md
+  - .claude
