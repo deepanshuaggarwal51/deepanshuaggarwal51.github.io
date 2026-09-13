@@ -123,6 +123,23 @@ body {
   color: var(--selection-color);
 }
 
+/* ---- Shared card base ---- */
+.focus-card,
+.role-card,
+.skill-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.focus-card:hover,
+.role-card:hover,
+.skill-card:hover {
+  border-color: var(--border);
+  box-shadow: 0 4px 20px var(--card-shadow);
+}
+
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--surface); }
@@ -173,7 +190,6 @@ body {
   z-index: 0;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
 
 .profile-img-wrapper img,
 .profile-placeholder {
@@ -679,17 +695,9 @@ body {
 
 .focus-card {
   background: var(--bg);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-lg);
   padding: 2rem 1.8rem;
-  transition: border-color 0.25s, box-shadow 0.25s;
   display: flex;
   flex-direction: column;
-}
-
-.focus-card:hover {
-  border-color: var(--border);
-  box-shadow: 0 4px 20px var(--card-shadow);
 }
 
 .focus-icon {
@@ -724,14 +732,8 @@ body {
 }
 
 .role-card {
-  background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-lg);
   padding: 2rem 2.2rem;
-  transition: border-color 0.2s;
 }
-
-.role-card:hover { border-color: var(--border); }
 
 .role-where {
   font-size: 0.75rem;
@@ -1079,16 +1081,7 @@ body {
 }
 
 .skill-card {
-  background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-lg);
   padding: 1.6rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.skill-card:hover {
-  border-color: var(--border);
-  box-shadow: 0 4px 20px var(--card-shadow);
 }
 
 .skill-card-icon {

@@ -52,18 +52,18 @@ function initReveal(root) {
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-  const sections = (root || document).querySelectorAll('section, .about-grid, .skills-grid, .pub-grid, .gh-grid, .timeline');
-  sections.forEach(section => {
-    const els = section.querySelectorAll(':scope > .reveal, :scope > * > .reveal');
-    els.forEach((el, i) => {
+  const els = (root || document).querySelectorAll('.reveal');
+  const groups = new Map();
+  els.forEach(el => {
+    const section = el.closest('section') || el.parentElement;
+    if (!groups.has(section)) groups.set(section, []);
+    groups.get(section).push(el);
+  });
+  groups.forEach(group => {
+    group.forEach((el, i) => {
       el.style.transitionDelay = `${i * 60}ms`;
       obs.observe(el);
     });
-  });
-
-  const topLevel = (root || document).querySelectorAll(':scope > .reveal, #main > .reveal');
-  topLevel.forEach(el => {
-    if (!el.classList.contains('visible')) obs.observe(el);
   });
 }
 
