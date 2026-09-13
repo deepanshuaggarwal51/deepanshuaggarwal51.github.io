@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Skills of Deepanshu Aggarwal — theoretical physics, many-body techniques, and scientific computing." />
+  <meta name="description" content="Skills of Deepanshu Aggarwal — ML/deep learning, scientific computing, theoretical physics, and academic writing." />
   <meta name="author" content="Deepanshu Aggarwal" />
   <meta name="theme-color" content="#09090f" />
   <meta property="og:title" content="Skills — Deepanshu Aggarwal" />
-  <meta property="og:description" content="Theoretical physics, many-body techniques, and scientific computing expertise." />
+  <meta property="og:description" content="ML/deep learning, scientific computing, theoretical physics, and academic writing expertise." />
   <meta property="og:type" content="website" />
   <title>Skills — Deepanshu Aggarwal</title>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
@@ -31,8 +31,8 @@
       </div>
     </div>
     <div class="sidebar-name">Deepanshu Aggarwal</div>
-    <div class="sidebar-title">PhD · Physics</div>
-    <div class="sidebar-institute">IIT Delhi</div>
+    <div class="sidebar-title">Research Scientist</div>
+    <div class="sidebar-institute">ParaScalr Inc.</div>
   </div>
   <nav class="sidebar-nav" aria-label="Site navigation">
     <div class="nav-section-label">Navigate</div>
@@ -46,6 +46,7 @@
       <li><a href="index.html#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
     </ul>
   </nav>
+  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
 </aside>
 
 <main id="main">
@@ -58,52 +59,57 @@
     <div class="skills-grid">
 
       <div class="skill-card reveal">
-        <div class="skill-card-icon"><i class="fas fa-atom"></i></div>
-        <div class="skill-card-title">Single-Particle Physics</div>
+        <div class="skill-card-icon"><i class="fas fa-brain"></i></div>
+        <div class="skill-card-title">ML &amp; Deep Learning</div>
         <div class="skill-card-desc">
-          Reproduced single-particle results for massless Dirac fermions in diverse superlattice potentials.
-          Studied Moiré systems (tBLG, twisted double bilayer graphene, TMDCs) including band structures,
-          density of states, and probability densities.
+          Building physics-informed neural networks for semiconductor device simulation.
+          Implementing PDE residuals in JAX and PyTorch for GPU-accelerated batch inference
+          across large device parameter spaces.
         </div>
         <div class="skill-tags">
-          <span class="skill-tag">Dirac fermions</span>
-          <span class="skill-tag">Band structure</span>
-          <span class="skill-tag">tBLG</span>
-          <span class="skill-tag">hBN</span>
-          <span class="skill-tag">TMDC</span>
+          <span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">JAX</span>
+          <span class="skill-tag">TensorFlow</span>
+          <span class="skill-tag">PINNs</span>
+          <span class="skill-tag">DeepXDE</span>
+          <span class="skill-tag">scikit-learn</span>
         </div>
       </div>
 
       <div class="skill-card reveal">
-        <div class="skill-card-icon"><i class="fas fa-infinity"></i></div>
-        <div class="skill-card-title">Many-Body Techniques</div>
+        <div class="skill-card-icon"><i class="fas fa-atom"></i></div>
+        <div class="skill-card-title">Scientific Computing</div>
         <div class="skill-card-desc">
-          Calculated zero- and finite-temperature Green's functions for single and bilayer graphene.
-          Computed correlation functions including the density–density correlation function and vacuum
-          polarization as functions of transfer wave vector q and frequency ω.
+          Developing numerical codes for band structures, density of states, and optical matrix elements.
+          Experience with DFT packages, electronic structure methods, and HPC clusters.
         </div>
         <div class="skill-tags">
-          <span class="skill-tag">Green's functions</span>
-          <span class="skill-tag">Vacuum polarization</span>
-          <span class="skill-tag">Many-body theory</span>
-          <span class="skill-tag">RPA</span>
+          <span class="skill-tag">Quantum Espresso</span>
+          <span class="skill-tag">SIESTA</span>
+          <span class="skill-tag">GPAW</span>
+          <span class="skill-tag">LAMMPS</span>
+          <span class="skill-tag">Wannier90</span>
+          <span class="skill-tag">MLIPs</span>
+          <span class="skill-tag">AiiDA</span>
         </div>
       </div>
 
       <div class="skill-card reveal">
         <div class="skill-card-icon"><i class="fas fa-laptop-code"></i></div>
-        <div class="skill-card-title">Scientific Computing</div>
+        <div class="skill-card-title">Programming &amp; Tools</div>
         <div class="skill-card-desc">
-          Developed numerical codes from scratch for band structures, density of states, and optical
-          matrix elements. Proficient in Python, MATLAB, and Wolfram Mathematica for computational
-          condensed matter problems.
+          Proficient across scientific and systems programming languages.
+          Experience with data visualization, containerized workflows, and TCAD tools.
         </div>
         <div class="skill-tags">
           <span class="skill-tag">Python</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Julia</span>
           <span class="skill-tag">MATLAB</span>
           <span class="skill-tag">Mathematica</span>
-          <span class="skill-tag">NumPy</span>
-          <span class="skill-tag">SciPy</span>
+          <span class="skill-tag">R</span>
+          <span class="skill-tag">Bash</span>
+          <span class="skill-tag">RUST</span>
         </div>
       </div>
 
@@ -122,6 +128,40 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ===== AWARDS ===== -->
+  <section class="section" style="padding-top:1.5rem; padding-bottom:1.5rem;">
+    <div class="section-header reveal" style="margin-bottom:1.2rem;">
+      <div class="section-eyebrow"><i class="fas fa-trophy"></i> Recognition</div>
+      <h2 class="section-title">Awards &amp; Fellowships</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-period">2024</div>
+          <div class="timeline-degree">Research Excellence Travel Award</div>
+          <div class="timeline-inst">IIT Delhi</div>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-period">2024</div>
+          <div class="timeline-degree">Graduate Student Travel Award</div>
+          <div class="timeline-inst">American Physical Society</div>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-period">2023</div>
+          <div class="timeline-degree">Research Scholar Travel Award</div>
+          <div class="timeline-inst">IIT Delhi</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -152,7 +192,7 @@
   </section>
 
   <footer>
-    <span>&copy; <span class="js-year">2025</span> Deepanshu Aggarwal · Indian Institute of Technology Delhi</span>
+    <span>&copy; <span class="js-year">2025</span> Deepanshu Aggarwal</span>
     <span><a href="index.html">Back to Home</a></span>
   </footer>
 </main>
