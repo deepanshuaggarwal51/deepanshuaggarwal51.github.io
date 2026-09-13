@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Publications by Deepanshu Aggarwal — Moiré physics, twistronics, Van der Waals heterostructures." />
   <meta name="author" content="Deepanshu Aggarwal" />
+  <meta name="theme-color" content="#09090f" />
+  <meta property="og:title" content="Publications — Deepanshu Aggarwal" />
+  <meta property="og:description" content="Publications in Moiré physics, twistronics, and Van der Waals heterostructures." />
+  <meta property="og:type" content="website" />
   <title>Publications — Deepanshu Aggarwal</title>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
   <script src="https://use.fontawesome.com/releases/v6.5.0/js/all.js" crossorigin="anonymous" defer></script>
@@ -33,12 +37,12 @@
   <nav class="sidebar-nav" aria-label="Site navigation">
     <div class="nav-section-label">Navigate</div>
     <ul>
-      <li><a href="index.html"    class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-      <li><a href="about.html"    class="nav-link"><i class="fas fa-user"></i> About</a></li>
-      <li><a href="publications.html" class="nav-link active"><i class="fas fa-flask"></i> Publications</a></li>
-      <li><a href="education.html"class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a></li>
-      <li><a href="news.html"     class="nav-link"><i class="fas fa-newspaper"></i> News</a></li>
-      <li><a href="skiils.html"   class="nav-link"><i class="fas fa-code"></i> Skills</a></li>
+      <li><a href="index.html"         class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="about.html"         class="nav-link"><i class="fas fa-user"></i> About</a></li>
+      <li><a href="publications.html"  class="nav-link active"><i class="fas fa-flask"></i> Publications</a></li>
+      <li><a href="education.html"     class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a></li>
+      <li><a href="news.html"          class="nav-link"><i class="fas fa-newspaper"></i> News</a></li>
+      <li><a href="skiils.html"        class="nav-link"><i class="fas fa-code"></i> Skills</a></li>
       <li><a href="index.html#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
     </ul>
   </nav>
@@ -56,23 +60,27 @@
       </p>
     </div>
 
-    <!-- Cards injected here -->
+    <!-- Loading skeleton -->
+    <div id="pub-loading" class="pub-grid">
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
+    </div>
+
     <div id="pub-grid" class="pub-grid" hidden></div>
   </section>
 
   <footer>
-    <span>&copy; 2025 Deepanshu Aggarwal · Indian Institute of Technology Delhi</span>
+    <span>&copy; <span class="js-year">2025</span> Deepanshu Aggarwal · Indian Institute of Technology Delhi</span>
     <span><a href="index.html">Back to Home</a></span>
   </footer>
 </main>
 
 <script src="js/site.js"></script>
 <script>
-// ── Config ────────────────────────────────────────────────────────────────────
-
 const ORCID      = '0000-0003-1070-8697';
-const ORCID_TO   = 8000;   // ms timeout for ORCID fetch
-const CROSSREF_TO= 6000;   // ms timeout per CrossRef fetch
+const ORCID_TO   = 8000;
+const CROSSREF_TO= 6000;
 
 const EXTRA_BADGES = {
   '10.1103/physrevb.109.125302': [
@@ -80,14 +88,11 @@ const EXTRA_BADGES = {
   ]
 };
 
-
 const TYPE_BADGE = {
   'review-article':  { label: 'Topical Review',  cls: 'badge-red',   icon: 'fas fa-book-open' },
   'journal-article': { label: 'Journal Article', cls: 'badge-green',  icon: 'fas fa-file-alt'  },
   'preprint':        { label: 'Preprint',         cls: 'badge-blue',  icon: 'fas fa-file-alt'  }
 };
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
 
 const normDOI  = doi => doi ? doi.trim().toLowerCase() : null;
 const stripJats = s  => s ? s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() : '';
@@ -124,8 +129,6 @@ function buildCard(pub, idx) {
     </article>`;
 }
 
-// ── Fetch ORCID ───────────────────────────────────────────────────────────────
-
 async function fetchWorks() {
   const resp = await fetchWithTimeout(
     `https://pub.orcid.org/v3.0/${ORCID}/works`,
@@ -149,8 +152,6 @@ async function fetchWorks() {
   });
 }
 
-// ── CrossRef enrichment (runs after cards are visible) ───────────────────────
-
 async function enrichCard(pub, idx) {
   if (!pub.doi) return;
   try {
@@ -162,7 +163,6 @@ async function enrichCard(pub, idx) {
     if (!resp.ok) return;
     const { message } = await resp.json();
 
-    // Citation badge: e.g. "Phys. Rev. B 110, 245418"
     const shortTitle = (message['short-container-title'] || [])[0] || '';
     const volume     = message.volume || '';
     const locator    = message['article-number'] || message.page || '';
@@ -173,7 +173,6 @@ async function enrichCard(pub, idx) {
       if (el) el.outerHTML = `<span class="badge badge-gray">${cite}</span>`;
     }
 
-    // Authors
     const authorList = (message.author || []).map(a => {
       const name = [a.given, a.family].filter(Boolean).join(' ');
       return (a.family?.toLowerCase() === 'aggarwal' && a.given?.toLowerCase().startsWith('d'))
@@ -185,7 +184,6 @@ async function enrichCard(pub, idx) {
       if (el) el.innerHTML = authorList;
     }
 
-    // Abstract
     const abstract = stripJats(message.abstract || '');
     if (abstract) {
       const el = document.getElementById(`desc-${idx}`);
@@ -194,19 +192,20 @@ async function enrichCard(pub, idx) {
   } catch { /* silent */ }
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
-
 async function loadPublications() {
-  const grid = document.getElementById('pub-grid');
+  const grid    = document.getElementById('pub-grid');
+  const loading = document.getElementById('pub-loading');
   try {
     const works = await fetchWorks();
     works.sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
     grid.innerHTML = works.map(buildCard).join('');
     grid.hidden    = false;
+    if (loading) loading.remove();
     initReveal(grid);
     works.forEach((pub, idx) => enrichCard(pub, idx));
   } catch (err) {
     console.error('ORCID load failed:', err);
+    if (loading) loading.remove();
   }
 }
 
