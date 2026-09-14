@@ -1,13 +1,12 @@
 ---
 layout: default
 title: "GitHub — Deepanshu Aggarwal"
-description: "Open-source projects in physics, ML, and scientific computing."
+description: "Open-source contributions to materials science tools, physics simulations, and ML projects."
 nav_id: github
 ---
 
-  <section class="section" style="padding-top:4rem; min-height:100vh;">
+  <section class="section" style="padding-top:4rem;">
     <div class="section-header reveal">
-      <div class="section-eyebrow"><i class="fab fa-github"></i> Open Source</div>
       <h2 class="section-title">GitHub Portfolio</h2>
     </div>
 
@@ -19,15 +18,111 @@ nav_id: github
       </a>
       <div id="gh-stats" class="gh-stats"></div>
     </div>
+  </section>
+
+  <!-- ===== OPEN-SOURCE CONTRIBUTIONS ===== -->
+  <section class="section" style="padding-top:0;">
+    <div class="section-header reveal">
+      <h2 class="section-title" style="font-size:1.3rem;">Open-Source Contributions</h2>
+      <p style="font-size:0.83rem; color:var(--text-faint); margin-top:0.4rem;">
+        Merged pull requests to <a href="https://github.com/materialsproject/pymatgen-core" target="_blank" rel="noopener" style="color:var(--gold-dim); text-decoration:none; border-bottom:1px dashed var(--gold-dim);">pymatgen-core</a>
+        — the Materials Project's core Python library for materials analysis
+      </p>
+    </div>
+
+    <div class="pr-list">
+      <a href="https://github.com/materialsproject/pymatgen-core/pull/72" target="_blank" rel="noopener" class="pr-card reveal">
+        <div class="pr-card-header">
+          <span class="pr-merged-badge"><i class="fas fa-code-merge"></i> Merged</span>
+          <span class="pr-repo">materialsproject/pymatgen-core</span>
+          <span class="pr-number">#72</span>
+        </div>
+        <h3 class="pr-title">Fix: PBC not preserved during structure transformations</h3>
+        <p class="pr-body">
+          Periodic boundary conditions set on a Structure's Lattice were silently reset to
+          (True, True, True) during supercell creation and other transformations. Patched
+          Lattice forwarding in <code>make_supercell</code> and related operators.
+        </p>
+        <div class="pr-meta">
+          <span class="pr-stat pr-additions">+34</span>
+          <span class="pr-stat pr-deletions">−3</span>
+          <span class="pr-date">May 2026</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/materialsproject/pymatgen-core/pull/32" target="_blank" rel="noopener" class="pr-card reveal">
+        <div class="pr-card-header">
+          <span class="pr-merged-badge"><i class="fas fa-code-merge"></i> Merged</span>
+          <span class="pr-repo">materialsproject/pymatgen-core</span>
+          <span class="pr-number">#32</span>
+        </div>
+        <h3 class="pr-title">Add asecellfilter_kwargs to Structure.relax</h3>
+        <p class="pr-body">
+          Added a new <code>asecellfilter_kwargs</code> argument to <code>Structure.relax</code>,
+          allowing users to pass keyword arguments to ASE's FrechetCellFilter for more
+          controlled cell relaxations — e.g., fixing specific lattice vectors.
+        </p>
+        <div class="pr-meta">
+          <span class="pr-stat pr-additions">+7</span>
+          <span class="pr-stat pr-deletions">−1</span>
+          <span class="pr-date">Apr 2026</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/materialsproject/pymatgen-core/pull/29" target="_blank" rel="noopener" class="pr-card reveal">
+        <div class="pr-card-header">
+          <span class="pr-merged-badge"><i class="fas fa-code-merge"></i> Merged</span>
+          <span class="pr-repo">materialsproject/pymatgen-core</span>
+          <span class="pr-number">#29</span>
+        </div>
+        <h3 class="pr-title">Extend BztPlotter.plot_bands and plot_dos</h3>
+        <p class="pr-body">
+          Extended <code>plot_bands</code> and <code>plot_dos</code> methods of BztPlotter
+          with additional arguments matching BztInterpolator for finer control over
+          Boltztrap2 transport property plotting. Made return behavior consistent across both methods.
+        </p>
+        <div class="pr-meta">
+          <span class="pr-stat pr-additions">+27</span>
+          <span class="pr-stat pr-deletions">−9</span>
+          <span class="pr-date">Apr 2026</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/materialsproject/pymatgen-core/pull/22" target="_blank" rel="noopener" class="pr-card reveal">
+        <div class="pr-card-header">
+          <span class="pr-merged-badge"><i class="fas fa-code-merge"></i> Merged</span>
+          <span class="pr-repo">materialsproject/pymatgen-core</span>
+          <span class="pr-number">#22</span>
+        </div>
+        <h3 class="pr-title">Fix AttributeError in BztPlotter.plot_props()</h3>
+        <p class="pr-body">
+          Added early validation for unsupported property combinations in <code>plot_props()</code>.
+          Previously, requesting Carrier_conc or Hall_carrier_conc_trace with certain axis
+          configurations caused an unhandled crash instead of a clear error.
+        </p>
+        <div class="pr-meta">
+          <span class="pr-stat pr-additions">+11</span>
+          <span class="pr-stat pr-deletions">−4</span>
+          <span class="pr-date">Apr 2026</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== REPOSITORIES ===== -->
+  <section class="section" style="padding-top:0; min-height:40vh;">
+    <div class="section-header reveal">
+      <h2 class="section-title" style="font-size:1.3rem;">Repositories</h2>
+    </div>
 
     <!-- Loading skeleton -->
     <div id="gh-loading" class="gh-grid">
-      <div class="skeleton skeleton-card" style="height:120px;"></div>
-      <div class="skeleton skeleton-card" style="height:120px;"></div>
-      <div class="skeleton skeleton-card" style="height:120px;"></div>
-      <div class="skeleton skeleton-card" style="height:120px;"></div>
-      <div class="skeleton skeleton-card" style="height:120px;"></div>
-      <div class="skeleton skeleton-card" style="height:120px;"></div>
+      <div class="skeleton skeleton-card" style="height:140px;"></div>
+      <div class="skeleton skeleton-card" style="height:140px;"></div>
+      <div class="skeleton skeleton-card" style="height:140px;"></div>
+      <div class="skeleton skeleton-card" style="height:140px;"></div>
+      <div class="skeleton skeleton-card" style="height:140px;"></div>
+      <div class="skeleton skeleton-card" style="height:140px;"></div>
     </div>
 
     <div id="gh-grid" class="gh-grid"></div>

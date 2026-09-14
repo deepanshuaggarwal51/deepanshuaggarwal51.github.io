@@ -5,8 +5,18 @@ const LANG_COLOR = {
   Python: '#3572A5', MATLAB: '#e16737', HTML: '#e34c26',
   JavaScript: '#f1e05a', SCSS: '#c6538c', Shell: '#89e051',
   Rust: '#dea584', Julia: '#a270ba', R: '#198CE7', C: '#555555',
-  'C++': '#f34b7d', Fortran: '#4d41b1'
+  'C++': '#f34b7d', Fortran: '#4d41b1', Jupyter: '#DA5B0B',
+  'Jupyter Notebook': '#DA5B0B', TypeScript: '#3178c6', CSS: '#563d7c'
 };
+
+function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const days = Math.floor(diff / 86400000);
+  if (days < 1) return 'today';
+  if (days < 30) return `${days}d ago`;
+  if (days < 365) return `${Math.floor(days / 30)}mo ago`;
+  return `${Math.floor(days / 365)}y ago`;
+}
 
 async function loadGitHub() {
   const loading = document.getElementById('gh-loading');
@@ -31,8 +41,13 @@ async function loadGitHub() {
 
     const grid = document.getElementById('gh-grid');
     grid.innerHTML = repos.map(r => {
-      const lang = r.language ? `<span class="gh-lang"><span class="gh-lang-dot" style="background:${LANG_COLOR[r.language] || '#8b949e'}"></span>${r.language}</span>` : '';
+      const lang = r.language
+        ? `<span class="gh-lang"><span class="gh-lang-dot" style="background:${LANG_COLOR[r.language] || '#8b949e'}"></span>${r.language}</span>`
+        : '';
       const desc = r.description ? `<p class="gh-desc">${r.description}</p>` : '';
+      const stars = r.stargazers_count ? `<span class="gh-meta-item"><i class="fas fa-star"></i> ${r.stargazers_count}</span>` : '';
+      const forks = r.forks_count ? `<span class="gh-meta-item"><i class="fas fa-code-branch"></i> ${r.forks_count}</span>` : '';
+      const updated = `<span class="gh-meta-item gh-updated">${timeAgo(r.pushed_at)}</span>`;
       return `
         <a href="${r.html_url}" target="_blank" rel="noopener" class="gh-card reveal">
           <div class="gh-card-top">
@@ -41,8 +56,7 @@ async function loadGitHub() {
           </div>
           ${desc}
           <div class="gh-card-foot">
-            ${lang}
-            ${r.stargazers_count ? `<span class="gh-stars"><i class="fas fa-star"></i> ${r.stargazers_count}</span>` : ''}
+            ${lang}${stars}${forks}${updated}
           </div>
         </a>`;
     }).join('');

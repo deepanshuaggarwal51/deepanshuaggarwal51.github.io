@@ -818,6 +818,10 @@ body {
   border-top: 1px solid var(--border-soft);
 }
 
+.section + .section[style*="padding-top:0"] {
+  border-top: none;
+}
+
 .section-header {
   margin-bottom: 3rem;
 }
@@ -1283,6 +1287,114 @@ body {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+.gh-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.gh-meta-item i { font-size: 0.7rem; }
+.gh-meta-item.gh-updated { margin-left: auto; opacity: 0.7; }
+
+/* PR contribution cards */
+.pr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pr-card {
+  display: block;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.pr-card:hover { border-color: var(--gold-dim); background: var(--surface-3); }
+
+.pr-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pr-merged-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #a371f7;
+  background: rgba(163, 113, 247, 0.1);
+  padding: 0.2rem 0.55rem;
+  border-radius: 10px;
+}
+
+.pr-repo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.pr-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  opacity: 0.7;
+}
+
+.pr-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--heading);
+  margin: 0 0 0.4rem;
+  line-height: 1.4;
+}
+
+.pr-body {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0 0 0.6rem;
+}
+
+.pr-body code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.73rem;
+  background: var(--surface-3);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  color: var(--gold-light);
+}
+
+.pr-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.pr-stat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.73rem;
+  font-weight: 500;
+}
+
+.pr-additions { color: #3fb950; }
+.pr-deletions { color: #f85149; }
+
+.pr-date {
+  font-size: 0.73rem;
+  color: var(--text-faint);
+  margin-left: auto;
 }
 
 /* Footer */
